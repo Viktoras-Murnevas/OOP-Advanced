@@ -73,7 +73,7 @@ public class Customer {
         this.id = id;
     }
 
-//Task 3
+
     private Customer(Builder builder) {
 
         this.id = builder.id;
@@ -111,7 +111,6 @@ public class Customer {
 
         public Builder(String id) {
             this.id = id;
-//            return this;
         }
 
         public Builder withFirstName(String firstName) {

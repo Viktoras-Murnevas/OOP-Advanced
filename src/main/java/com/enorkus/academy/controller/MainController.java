@@ -13,34 +13,24 @@ import java.util.List;
 @RequestMapping("/api")
 public class MainController {
 
-//    @Autowired
-//    CustomerRepository customerRepository;  // Spring
-    private MemoryCustomerRepository customerRepository;
     private CustomerService customerService;
 
     public MainController() {
-        customerRepository = new MemoryCustomerRepository();
-        customerService= new CustomerService();
-
+        customerService = new CustomerService();
     }
 
     @RequestMapping("/customer/all")
-    public List<Customer> fetchCustomers() {                              // fetchCustomers is never used, ar jis cia reikalingas?
-        return customerRepository.findAll();
+    public List<Customer> fetchCustomers() {
+        return customerService.fetchCustomer();
     }
 
     @PostMapping("/customer/insert")
-    public void insertCustomer(@RequestBody Customer customer) {          // insertCustomer is never used, ar jis cia reikalingas?
-// Task 1
-//        customerRepository.insert(customer);
-// Task 2 and Task 3
+    public void insertCustomer(@RequestBody Customer customer) {
         customerService.insertCustomer(customer);
-
-
     }
 
     @DeleteMapping("/customer/delete/{customerId}")
     public void deleteCustomer(@PathVariable String customerId) {
-        customerRepository.deleteById(customerId);
+        customerService.deleteCustomer(customerId);
     }
 }

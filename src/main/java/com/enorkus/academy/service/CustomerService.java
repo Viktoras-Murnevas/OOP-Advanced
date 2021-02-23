@@ -10,50 +10,37 @@ import java.util.List;
 public class CustomerService {
 
     private MemoryCustomerRepository memoryCustomerRepository;
-    private Validator validator;                                            // 4.0
+    private Validator validator;
 
     public CustomerService() {
-        this.memoryCustomerRepository = new MemoryCustomerRepository();     // 2.4 // memoryCustomerRepository
-        validator = new Validator();                                        // 4.0
+        this.memoryCustomerRepository = new MemoryCustomerRepository();
+        validator = new Validator();
     }
 
-    public List<Customer> fetchCustomer() {                                 // is never used
+    public List<Customer> fetchCustomer() {
         return memoryCustomerRepository.findAll();
     }
 
-    public void deleteCustomer(String customerId) {                         // is never used
+    public void deleteCustomer(String customerId) {
         memoryCustomerRepository.deleteById(customerId);
     }
 
-// Task 2
-    private String capitalize(String capital) {
-        if (capital.length() != 0) {
-            return capital.substring(0, 1).toUpperCase() + capital.substring(1);
+    private String capitalize(String firstAndLastName) {
+        if (firstAndLastName.length() != 0) {
+            return firstAndLastName.substring(0, 1).toUpperCase() + firstAndLastName.substring(1);
         }
-        return capital;
+        return firstAndLastName;
     }
 
-    private String formatPersonalNumber(String dashed) {
-        if (StringUtils.isNotBlank(dashed) && dashed.length() >= 4) {
-            return dashed.substring(0, 4) + "-" + dashed.substring(4);
+    private String formatPersonalNumber(String personalNumber) {
+        if (StringUtils.isNotBlank(personalNumber) && personalNumber.length() > 5) {
+            return personalNumber.replaceAll("\\-","").substring(0, 4) + "-" + personalNumber.replaceAll("\\-","").substring(4);
         }
-        return dashed;
+        return personalNumber.replaceAll("\\-","");
     }
 
-//Task 2
-//   public void insertCustomer(Customer customer) {
-//        memoryCustomerRepository.insert(renewedCustomer(customer));
-//    }
-//   public Customer renewedCustomer(Customer customer) {
-//       customer.setFirstName(capitalize(customer.getFirstName()));
-//       customer.setLastName(capitalize(customer.getLastName()));
-//       customer.setPersonalNumber(formatPersonalNumber(customer.getPersonalNumber()));
-//       return customer;
-//   }
-
-//Task 3
     public void insertCustomer(Customer customer) {
-        validator.inputValidation(customer);                                            // 4.0
+        validator.inputValidation(customer);
         Customer renewedCustomer = new Customer.Builder(customer.getId())
                 .withFirstName(capitalize(customer.getFirstName()))
                 .withLastName(capitalize(customer.getLastName()))
