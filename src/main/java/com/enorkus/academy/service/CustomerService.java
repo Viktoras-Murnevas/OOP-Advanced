@@ -2,27 +2,27 @@ package com.enorkus.academy.service;
 
 import com.enorkus.academy.entity.Customer;
 import com.enorkus.academy.repository.MemoryCustomerRepository;
-import com.enorkus.academy.validation.Validator;
+import com.enorkus.academy.validation.CustomerValidator;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
 public class CustomerService {
 
-    private MemoryCustomerRepository memoryCustomerRepository;
-    private Validator validator;
+    private MemoryCustomerRepository customerRepository;
+    private CustomerValidator customerValidator;
 
     public CustomerService() {
-        this.memoryCustomerRepository = new MemoryCustomerRepository();
-        validator = new Validator();
+        this.customerRepository = new MemoryCustomerRepository();
+        customerValidator = new CustomerValidator();
     }
 
     public List<Customer> fetchCustomer() {
-        return memoryCustomerRepository.findAll();
+        return customerRepository.findAll();
     }
 
     public void deleteCustomer(String customerId) {
-        memoryCustomerRepository.deleteById(customerId);
+        customerRepository.deleteById(customerId);
     }
 
     private String capitalize(String firstAndLastName) {
@@ -40,7 +40,7 @@ public class CustomerService {
     }
 
     public void insertCustomer(Customer customer) {
-        validator.inputValidation(customer);
+        customerValidator.validate(customer);
         Customer renewedCustomer = new Customer.Builder(customer.getId())
                 .withFirstName(capitalize(customer.getFirstName()))
                 .withLastName(capitalize(customer.getLastName()))
@@ -55,6 +55,6 @@ public class CustomerService {
                 .withMaritalStatus(customer.getMaritalStatus())
                 .build();
 
-        memoryCustomerRepository.insert(renewedCustomer);
+        customerRepository.insert(renewedCustomer);
         }
 }

@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value=HttpStatus.UNPROCESSABLE_ENTITY)
-public class MandatoryValueMissingException extends RuntimeException {
+public class ValidationException extends RuntimeException {
 
-    public MandatoryValueMissingException(String message) {
+    public ValidationException(String message) {
                 super(message);
     }
 }
